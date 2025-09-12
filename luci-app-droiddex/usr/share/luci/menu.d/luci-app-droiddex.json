@@ -25,9 +25,17 @@
 			"path": "droiddex/config"
 		}
 	},
+	"admin/services/droiddex/droiddex": {
+		"title": "DroidDex",
+		"order": 30,
+		"action": {
+			"type": "view",
+			"path": "droiddex/droiddex"
+		}
+	},
 	"admin/services/droiddex/logs": {
 		"title": "Logs",
-		"order": 30,
+		"order": 40,
 		"action": {
 			"type": "view",
 			"path": "droiddex/logs"

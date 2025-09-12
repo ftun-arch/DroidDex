@@ -1,14 +1,6 @@
 /*
  * This is open source software, licensed under the MIT License.
- *
  * Copyright (C) 2024 BobbyUnknown
- *
- * Description:
- * This software provides a RAM release scheduling application for OpenWrt.
- * The application allows users to configure and automate the process of 
- * releasing RAM on their OpenWrt router at specified intervals, helping
- * to optimize system performance and resource management through a 
- * user-friendly web interface.
  */
 
 'use strict';
@@ -26,16 +18,10 @@ var callServiceList = rpc.declare({
     expect: { '': {} }
 });
 
-var callServiceAction = rpc.declare({
-    object: 'service',
-    method: 'event',
-    params: ['action', 'name'],
-    expect: { }
-});
-
 return view.extend({
     title: _('DroidDex Configuration'),
     description: _('Configure DroidDex Android screen mirroring service'),
+    map: null,
 
     load: function() {
         return uci.load('droiddex');
@@ -59,8 +45,9 @@ return view.extend({
     },
 
     render: function() {
-        var m = new form.Map('droiddex', _('DroidDex'), 
+        this.map = new form.Map('droiddex', _('DroidDex'), 
             _('Configuration DroidDex service'));
+        var m = this.map;
 
         var s = m.section(form.NamedSection, 'config', 'droiddex', _('General Settings'));
         s.addremove = false;
@@ -71,8 +58,8 @@ return view.extend({
         port.placeholder = '8000';
 
         var device = s.option(form.ListValue, 'device', _('ADB Device'), 
-            _('ADB device ID to connect to'));
-        device.value('', _('-- Select Device --'));
+            _('ADB device ID to connect to. Leave empty for auto-detect.'));
+        device.value('', _('-- Auto Detect --'));
 
         var self = this;
         device.load = function(section_id) {
@@ -99,48 +86,25 @@ return view.extend({
             return fs.exec('adb', ['devices']).then(function(result) {
                 if (result.code === 0) {
                     var devices = self.parseAdbDevices(result.stdout || '');
-                    
-                    while (device.keylist.length > 1) {
-                        device.keylist.pop();
-                        device.vallist.pop();
+                    var deviceDropdown = document.querySelector('[data-id="config-device"]');
+
+                    while (deviceDropdown.options.length > 1) {
+                        deviceDropdown.remove(1);
                     }
-                    
+					
                     devices.forEach(function(deviceId) {
-                        device.value(deviceId, deviceId);
+                        deviceDropdown.add(new Option(deviceId, deviceId));
                     });
-                    
-                    var selectEl = document.querySelector('select[data-name="device"]');
-                    if (selectEl) {
-                        var currentValue = selectEl.value;
-                        selectEl.innerHTML = '<option value="">-- Auto Detect --</option>';
-                        
-                        devices.forEach(function(deviceId) {
-                            var option = document.createElement('option');
-                            option.value = deviceId;
-                            option.textContent = deviceId;
-                            selectEl.appendChild(option);
-                        });
-                        
-                        if (devices.indexOf(currentValue) !== -1) {
-                            selectEl.value = currentValue;
-                        }
-                    }
                     
                     ui.addNotification(null, 
                         E('p', _('Found %d device(s)').format(devices.length)), 
                         'info'
                     );
                 } else {
-                    ui.addNotification(null, 
-                        E('p', _('ADB command failed')), 
-                        'warning'
-                    );
+                    ui.addNotification(null, E('p', _('ADB command failed')), 'warning');
                 }
             }).catch(function() {
-                ui.addNotification(null, 
-                    E('p', _('Failed to scan devices')), 
-                    'error'
-                );
+                ui.addNotification(null, E('p', _('Failed to scan devices')), 'error');
             }).finally(function() {
                 btn.disabled = false;
                 btn.value = _('Refresh ADB Devices');
@@ -151,7 +115,6 @@ return view.extend({
             _('Video bit rate for scrcpy streaming (default: 1024000)'));
         bitrate.datatype = 'uinteger';
         bitrate.placeholder = '1024000';
-
 
         var footerSection = m.section(form.TypedSection, 'footer');
         footerSection.addremove = false;
@@ -172,8 +135,21 @@ return view.extend({
         return m.render();
     },
 
-    handleSave: null,
-    handleSaveApply: null,
-    handleReset: null
+    handleSaveApply: function(ev) {
+        var self = this;
+        return this.map.save(null, true).then(function() {
+            ui.addNotification(null, E('p', _('Configuration saved. Restarting service...')), 'info');
+            return fs.exec('/etc/init.d/droiddex', ['restart']).catch(function(e) {
+                ui.addNotification(null, E('p', _('Could not restart service: %s').format(e.message)));
+            });
+        });
+    },
+
+    handleSave: function(ev) {
+        return this.map.save();
+    },
+
+    handleReset: function(ev) {
+        return this.map.reset();
+    }
 });
- 
