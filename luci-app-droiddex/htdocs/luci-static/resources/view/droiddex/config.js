@@ -129,5 +129,30 @@ return view.extend({
     },
 
     handleSaveApply: function(ev, mode) {
-
         return this.map.save().then(() => {
+			ui.addNotification(null, E('p', _('Configuration saved. Applying changes...')), 'info');
+			
+			return fs.exec('/etc/init.d/droiddex', ['restart'])
+				.then(result => {
+					if (result.code === 0) {
+						ui.addNotification(null, E('p', _('Service restarted successfully.')), 'success');
+					} else {
+						ui.addNotification(null, E('p', _('Service failed to restart: %s').format(result.stderr || 'Unknown error')), 'error');
+					}
+				})
+				.catch(e => {
+					ui.addNotification(null, E('p', _('Error restarting service: %s').format(e.message)));
+				});
+		}).catch(() => {
+			ui.addNotification(null, E('p', _('Failed to save configuration.')));
+		});
+    },
+
+    handleSave: function(ev) {
+        return this.map.save();
+    },
+
+    handleReset: function(ev) {
+        return this.map.reset();
+    }
+});
