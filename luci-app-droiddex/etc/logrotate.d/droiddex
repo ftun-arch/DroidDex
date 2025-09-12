@@ -1,0 +1,9 @@
+
+/var/log/droiddex/droiddex.log {
+    rotate 4
+    weekly
+    size 1M
+    compress
+    missingok
+    notifempty
+}

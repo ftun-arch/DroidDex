@@ -1,14 +1,6 @@
 /*
  * This is open source software, licensed under the MIT License.
- *
  * Copyright (C) 2024 BobbyUnknown
- *
- * Description:
- * This software provides a RAM release scheduling application for OpenWrt.
- * The application allows users to configure and automate the process of 
- * releasing RAM on their OpenWrt router at specified intervals, helping
- * to optimize system performance and resource management through a 
- * user-friendly web interface.
  */
 
 'use strict';
@@ -24,13 +16,6 @@ var callServiceList = rpc.declare({
     method: 'list',
     params: ['name'],
     expect: { '': {} }
-});
-
-var callServiceAction = rpc.declare({
-    object: 'service',
-    method: 'event',
-    params: ['action', 'name'],
-    expect: { }
 });
 
 return view.extend({
@@ -155,41 +140,16 @@ return view.extend({
             });
         };
 
-        var openBtn = controlSection.option(form.Button, 'open', _('Open DroidDex'));
-        openBtn.inputtitle = _('Open DroidDex');
-        openBtn.onclick = function(ev) {
-            var btn = ev.target;
-            btn.disabled = true;
-            btn.value = _('Loading...');
-            
-            var port = uci.get('droiddex', 'config', 'server_port') || '8000';
-            var currentHost = window.location.hostname;
-            var url = 'http://' + currentHost + ':' + port;
-            
-            window.open(url, '_blank');
-            
-            ui.addNotification(null, 
-                E('p', _('Opening DroidDex at %s').format(url)), 
-                'info'
-            );
-            
-            btn.disabled = false;
-            btn.value = _('Open DroidDex');
-        };
-
         fs.exec('/etc/init.d/droiddex', ['status']).then(function(result) {
             if (result.code === 0) {
                 startBtn.readonly = true;
-                openBtn.readonly = false;
             } else {
                 stopBtn.readonly = true;
                 restartBtn.readonly = true;
-                openBtn.readonly = true;
             }
         }).catch(function() {
             stopBtn.readonly = true;
             restartBtn.readonly = true;
-            openBtn.readonly = true;
         });
 
         var footerSection = m.section(form.TypedSection, 'footer');

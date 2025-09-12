@@ -7,7 +7,7 @@ PKG_RELEASE:=1
 PKG_MAINTAINER:=BobbyUnknown <bobbyun.known88@gmail.com>
 
 LUCI_TITLE:=DroidDex - Android Screen Mirroring
-LUCI_DEPENDS:=+adb +screen
+LUCI_DEPENDS:=+adb +screen +logrotate
 LUCI_PKGARCH:=all
 
 PKG_LICENSE:=MIT

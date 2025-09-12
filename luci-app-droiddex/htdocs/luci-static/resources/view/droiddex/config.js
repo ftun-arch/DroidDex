@@ -11,13 +11,6 @@
 'require fs';
 'require ui';
 
-var callServiceList = rpc.declare({
-    object: 'service',
-    method: 'list',
-    params: ['name'],
-    expect: { '': {} }
-});
-
 return view.extend({
     title: _('DroidDex Configuration'),
     description: _('Configure DroidDex Android screen mirroring service'),
@@ -135,21 +128,6 @@ return view.extend({
         return m.render();
     },
 
-    handleSaveApply: function(ev) {
-        var self = this;
-        return this.map.save(null, true).then(function() {
-            ui.addNotification(null, E('p', _('Configuration saved. Restarting service...')), 'info');
-            return fs.exec('/etc/init.d/droiddex', ['restart']).catch(function(e) {
-                ui.addNotification(null, E('p', _('Could not restart service: %s').format(e.message)));
-            });
-        });
-    },
+    handleSaveApply: function(ev, mode) {
 
-    handleSave: function(ev) {
-        return this.map.save();
-    },
-
-    handleReset: function(ev) {
-        return this.map.reset();
-    }
-});
+        return this.map.save().then(() => {
