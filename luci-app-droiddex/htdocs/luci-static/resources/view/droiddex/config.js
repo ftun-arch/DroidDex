@@ -34,11 +34,11 @@ var callServiceAction = rpc.declare({
 });
 
 return view.extend({
-    title: _('WebDroidX Configuration'),
-    description: _('Configure WebDroidX Android screen mirroring service'),
+    title: _('DroidDex Configuration'),
+    description: _('Configure DroidDex Android screen mirroring service'),
 
     load: function() {
-        return uci.load('webdroidx');
+        return uci.load('droiddex');
     },
 
     parseAdbDevices: function(output) {
@@ -59,10 +59,10 @@ return view.extend({
     },
 
     render: function() {
-        var m = new form.Map('webdroidx', _('WebDroidX'), 
-            _('Configuration WebDroidX service'));
+        var m = new form.Map('droiddex', _('DroidDex'), 
+            _('Configuration DroidDex service'));
 
-        var s = m.section(form.NamedSection, 'config', 'webdroidx', _('General Settings'));
+        var s = m.section(form.NamedSection, 'config', 'droiddex', _('General Settings'));
         s.addremove = false;
 
         var port = s.option(form.Value, 'server_port', _('Server Port'), 
@@ -83,9 +83,9 @@ return view.extend({
                         device.value(deviceId, deviceId);
                     });
                 }
-                return uci.get('webdroidx', section_id, 'device') || '';
+                return uci.get('droiddex', section_id, 'device') || '';
             }).catch(function() {
-                return uci.get('webdroidx', section_id, 'device') || '';
+                return uci.get('droiddex', section_id, 'device') || '';
             });
         };
 

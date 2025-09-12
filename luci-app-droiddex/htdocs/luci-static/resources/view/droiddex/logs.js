@@ -23,7 +23,7 @@ return view.extend({
     handleReset: null,
 
     loadLog: function() {
-        return fs.read('/var/log/webdroidx/webdroidx.log')
+        return fs.read('/var/log/droiddex/droiddex.log')
             .then(function(log) {
                 if (!log || !log.trim()) {
                     return _('No log entries found');
@@ -40,7 +40,7 @@ return view.extend({
 
     createDefaultLog: function() {
         var defaultMessage = 'No log found';
-        return fs.write('/var/log/webdroidx/webdroidx.log', defaultMessage + '\n')
+        return fs.write('/var/log/droiddex/droiddex.log', defaultMessage + '\n')
             .then(function() {
                 return defaultMessage;
             })
@@ -69,7 +69,7 @@ return view.extend({
         poll.add(updateLog, 5);
 
         return E('div', { 'class': 'cbi-map' }, [
-            E('h2', _('WebDroidX Log')),
+            E('h2', _('DroidDex Log')),
             E('div', { 'class': 'cbi-section' }, [
                 E('div', { 'class': 'cbi-section-descr' }, _('Log entries are displayed with newest entries first. Auto-refreshes every 5 seconds.')),
                 logTextarea
@@ -82,7 +82,7 @@ return view.extend({
                         button.disabled = true;
                         button.textContent = _('Clearing...');
                         
-                        return fs.write('/var/log/webdroidx/webdroidx.log', 'Log cleared\n')
+                        return fs.write('/var/log/droiddex/droiddex.log', 'Log cleared\n')
                             .then(function() {
                                 updateLog();
                             })

@@ -1,12 +1,12 @@
-# WebDroidX - Android Screen Mirroring untuk OpenWrt
+# DroidDex - Android Screen Mirroring for OpenWrt
 
 [![Telegram Group](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/+TuLCASzJrVJmNzM1)
-[![GitHub Downloads](https://img.shields.io/github/downloads/bobbyunknown/WebDroidX/total?style=for-the-badge)](https://github.com/bobbyunknown/WebDroidX)
-[![GitHub Release](https://img.shields.io/github/v/release/bobbyunknown/WebDroidX?style=for-the-badge)](https://github.com/bobbyunknown/WebDroidX/releases)
+[![GitHub Downloads](https://img.shields.io/github/downloads/bobbyunknown/DroidDex/total?style=for-the-badge)](https://github.com/bobbyunknown/DroidDex)
+[![GitHub Release](https://img.shields.io/github/v/release/bobbyunknown/DroidDex?style=for-the-badge)](https://github.com/bobbyunknown/DroidDex/releases)
 
 > **Language / Bahasa:** [🇺🇸 English](README-EN.md) | 🇮🇩 **Bahasa Indonesia**
 
-WebDroidX adalah solusi screen mirroring berbasis web yang memungkinkan Anda mengontrol dan melihat perangkat Android melalui browser web. Project ini dikembangkan khusus untuk OpenWrt/ImmortalWrt dengan dukungan multi-architecture.
+DroidDex adalah solusi screen mirroring berbasis web yang memungkinkan Anda mengontrol dan melihat perangkat Android melalui browser web. Project ini dikembangkan khusus untuk OpenWrt/ImmortalWrt dengan dukungan multi-architecture.
 
 ## 🚀 Fitur Utama
 
@@ -40,8 +40,8 @@ WebDroidX adalah solusi screen mirroring berbasis web yang memungkinkan Anda men
 ## 📦 Struktur Project
 
 ```
-WebDroidX/
-└── luci-app-webdroidx/     # LuCI web interface
+DroidDex/
+└── luci-app-droiddex/     # LuCI web interface
     ├── htdocs/            # Static web files
     ├── etc/               # Configuration files
     └── usr/               # System files
@@ -68,7 +68,7 @@ WebDroidX/
 ### 1. Install Core
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/bobbyunknown/WebDroidX/refs/heads/main/install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ftun-arch/DroidDex/refs/heads/main/install.sh)"
 ```
 
 ### 2. Install Package
@@ -76,13 +76,13 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/bobbyunknown/WebDroidX/r
 ```bash
 # Download luci app di release
 # Install luci-app
-opkg install luci-app-webdroidx_*.ipk
+opkg install luci-app-droiddex_*.ipk
 ```
 
 ## ⚙️ Konfigurasi
 
 ### 1. Akses Web Interface
-- Buka browser dan akses: `http://[router-ip]/cgi-bin/luci/admin/services/webdroidx`
+- Buka browser dan akses: `http://[router-ip]/cgi-bin/luci/admin/services/droiddex`
 - Login dengan kredensial OpenWrt Anda
 
 ### 2. Konfigurasi Perangkat Android
@@ -92,17 +92,17 @@ opkg install luci-app-webdroidx_*.ipk
 
 ### 3. Start Service
 ```bash
-# Start webdroidx service
-/etc/init.d/webdroidx start
+# Start droiddex service
+/etc/init.d/droiddex start
 
 # Enable auto-start
-/etc/init.d/webdroidx enable
+/etc/init.d/droiddex enable
 ```
 
 ## 🎯 Penggunaan
 
 1. **Hubungkan Perangkat**: Pastikan Android device terhubung via ADB
-2. **Start Service**: Jalankan webdroidx service melalui LuCI atau command line
+2. **Start Service**: Jalankan droiddex service melalui LuCI atau command line
 3. **Akses Interface**: Buka web interface untuk mulai screen mirroring
 4. **Control Device**: Gunakan mouse dan keyboard untuk mengontrol Android
 
@@ -121,10 +121,10 @@ adb start-server
 ### Service Tidak Berjalan
 ```bash
 # Check service status
-/etc/init.d/webdroidx status
+/etc/init.d/droiddex status
 
 # Check logs
-logread | grep webdroidx
+logread | grep droiddex
 ```
 
 ### Port Conflict
@@ -161,4 +161,4 @@ Jika Anda mengalami masalah atau memiliki pertanyaan:
 
 ---
 
-**WebDroidX** - Bringing Android screen mirroring to your OpenWrt router! 🚀
+**DroidDex** - Bringing Android screen mirroring to your OpenWrt router! 🚀

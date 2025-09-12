@@ -1,14 +1,14 @@
 # Copyright (c) 2025 BobbyUnknown
 # Licensed under the MIT License.
 
-name: Build luci-app-webdroidx
+name: Build luci-app-droiddex
 
 on:
   workflow_dispatch:
 
 jobs:
   build:
-    name: Build WebDroidX Package
+    name: Build DroidDex Package
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -26,22 +26,22 @@ jobs:
         uses: openwrt/gh-action-sdk@main
         env:
           ARCH: ${{ matrix.arch }}-${{ matrix.release }}
-          PACKAGES: luci-app-webdroidx
+          PACKAGES: luci-app-droiddex
           INDEX: 0
           NO_REFRESH_CHECK: 1
           
       - name: Find package files
         run: |
-          find . -name "*luci-app-webdroidx*.ipk" -type f
-          find . -name "*luci-app-webdroidx*.apk" -type f
+          find . -name "*luci-app-droiddex*.ipk" -type f
+          find . -name "*luci-app-droiddex*.apk" -type f
           
       - name: Archive build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: luci-app-webdroidx-${{ matrix.arch }}-${{ matrix.release }}
+          name: luci-app-droiddex-${{ matrix.arch }}-${{ matrix.release }}
           path: |
-            **/*luci-app-webdroidx*.ipk
-            **/*luci-app-webdroidx*.apk
+            **/*luci-app-droiddex*.ipk
+            **/*luci-app-droiddex*.apk
           if-no-files-found: error
 
   release:
@@ -57,8 +57,8 @@ jobs:
         id: get_info
         run: |
           # Extract version from Makefile
-          PKG_VERSION=$(grep "^PKG_VERSION:=" luci-app-webdroidx/Makefile | cut -d'=' -f2)
-          PKG_RELEASE=$(grep "^PKG_RELEASE:=" luci-app-webdroidx/Makefile | cut -d'=' -f2)
+          PKG_VERSION=$(grep "^PKG_VERSION:=" luci-app-droiddex/Makefile | cut -d'=' -f2)
+          PKG_RELEASE=$(grep "^PKG_RELEASE:=" luci-app-droiddex/Makefile | cut -d'=' -f2)
           FULL_VERSION="${PKG_VERSION}-${PKG_RELEASE}"
           echo "version=$FULL_VERSION" >> $GITHUB_OUTPUT
           echo "pkg_version=$PKG_VERSION" >> $GITHUB_OUTPUT
@@ -74,7 +74,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           release_tag="${{ steps.get_info.outputs.version }}"
-          release_body="# 🚀 luci-app-webdroidx for OpenWRT
+          release_body="# 🚀 luci-app-droiddex for OpenWRT
 
           ## 📦 Release Version: \`${{ steps.get_info.outputs.version }}\`
           
@@ -91,7 +91,7 @@ jobs:
           
           if ! gh release view "$release_tag" >/dev/null 2>&1; then
             gh release create "$release_tag" \
-              --title "luci-app-webdroidx v${{ steps.get_info.outputs.version }}" \
+              --title "luci-app-droiddex v${{ steps.get_info.outputs.version }}" \
               --notes "$release_body"
           fi
           
@@ -101,7 +101,7 @@ jobs:
         run: |
           # List all files for debugging
           echo "=== Files in artifacts directory ==="
-          find ./artifacts -name "*luci-app-webdroidx*" -type f | sort
+          find ./artifacts -name "*luci-app-droiddex*" -type f | sort
           
           for artifact_dir in ./artifacts/*/; do
             if [ -d "$artifact_dir" ]; then
@@ -116,7 +116,7 @@ jobs:
                 suffix="unknown"
               fi
               
-              find "$artifact_dir" -name "*luci-app-webdroidx*" -type f | while read file; do
+              find "$artifact_dir" -name "*luci-app-droiddex*" -type f | while read file; do
                 filename=$(basename "$file")
                 
                 if [[ "$filename" == *.ipk ]]; then

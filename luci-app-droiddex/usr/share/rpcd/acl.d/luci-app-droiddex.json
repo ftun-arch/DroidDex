@@ -1,16 +1,16 @@
 {
-    "luci-app-webdroidx": {
-        "description": "Grant access to webdroidx configuration and ADB commands",
+    "luci-app-droiddex": {
+        "description": "Grant access to droiddex configuration and ADB commands",
         "read": {
             "ubus": {
                 "service": [ "list" ],
                 "file": [ "read" ]
             },
-            "uci": [ "webdroidx" ],
+            "uci": [ "droiddex" ],
             "file": {
-                "/var/log/webdroidx/webdroidx.log": [ "read" ],
+                "/var/log/droiddex/droiddex.log": [ "read" ],
                 "/usr/bin/adb": [ "exec" ],
-                "/etc/init.d/webdroidx": [ "exec" ],
+                "/etc/init.d/droiddex": [ "exec" ],
                 "/sbin/uci": [ "exec" ]
             }
         },
@@ -19,11 +19,11 @@
                 "service": [ "event", "start", "stop" ],
                 "file": [ "write", "exec" ]
             },
-            "uci": [ "webdroidx" ],
+            "uci": [ "droiddex" ],
             "file": {
-                "/var/log/webdroidx/webdroidx.log": [ "write" ],
+                "/var/log/droiddex/droiddex.log": [ "write" ],
                 "/usr/bin/adb": [ "exec" ],
-                "/etc/init.d/webdroidx": [ "exec" ],
+                "/etc/init.d/droiddex": [ "exec" ],
                 "/sbin/uci": [ "exec" ]
             }
         }

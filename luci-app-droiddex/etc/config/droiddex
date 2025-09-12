@@ -1,5 +1,5 @@
 
-config webdroidx 'config'
+config droiddex 'config'
 	option server_port '8000'
 	option video_bit_rate '1024000'
 	option device 'ce031713adde4c4c0d'

@@ -1,0 +1,36 @@
+{
+	"admin/services/droiddex": {
+		"title": "DroidDex",
+		"action": {
+			"type": "firstchild"
+		},
+		"depends": {
+			"acl": [ "luci-app-droiddex" ],
+			"uci": { "droiddex": true }
+		}
+	},
+	"admin/services/droiddex/home": {
+		"title": "Home",
+		"order": 10,
+		"action": {
+			"type": "view",
+			"path": "droiddex/home"
+		}
+	},
+	"admin/services/droiddex/config": {
+		"title": "Configuration",
+		"order": 20,
+		"action": {
+			"type": "view",
+			"path": "droiddex/config"
+		}
+	},
+	"admin/services/droiddex/logs": {
+		"title": "Logs",
+		"order": 30,
+		"action": {
+			"type": "view",
+			"path": "droiddex/logs"
+		}
+	}
+}

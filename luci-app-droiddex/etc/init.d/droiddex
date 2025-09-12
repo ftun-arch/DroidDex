@@ -1,0 +1,74 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+EXTRA_COMMANDS="status"
+
+BIN="/usr/share/droiddex/droiddex"
+WORKDIR="/usr/share/droiddex"
+LOGDIR="/var/log/droiddex"
+LOGFILE="droiddex.log"
+
+start() {
+    screen -S droiddex -X quit 2>/dev/null
+    
+    server_port=$(uci -q get droiddex.config.server_port)
+    video_bit_rate=$(uci -q get droiddex.config.video_bit_rate)
+    device=$(uci -q get droiddex.config.device)
+    
+    [ -z "$server_port" ] && server_port="8000"
+    [ -z "$video_bit_rate" ] && video_bit_rate="1024000"
+    
+    mkdir -p $LOGDIR
+    > $LOGDIR/$LOGFILE
+    
+    if [ ! -f "$BIN" ]; then
+        echo "$(date): ERROR - droiddex binary not found at $BIN" >> $LOGDIR/$LOGFILE
+        return 1
+    fi
+    
+    cd $WORKDIR
+    
+    CMD="$BIN -p $server_port --video_bit_rate $video_bit_rate"
+    if [ -n "$device" ] && [ "$device" != "" ]; then
+        CMD="$CMD --device $device"
+    fi
+    
+    screen -dmS droiddex bash -c "$CMD >> $LOGDIR/$LOGFILE 2>&1"
+    
+    sleep 2
+    if screen -list | grep -q "droiddex"; then
+        echo "$(date): DroidDex started successfully on port $server_port" >> $LOGDIR/$LOGFILE
+        return 0
+    else
+        echo "$(date): ERROR - DroidDex failed to start" >> $LOGDIR/$LOGFILE
+        return 1
+    fi
+}
+
+stop() {
+    if screen -list | grep -q "droiddex"; then
+        screen -S droiddex -X quit 2>/dev/null
+        sleep 1
+        echo "$(date): DroidDex stopped" >> $LOGDIR/$LOGFILE
+        return 0
+    else
+        echo "$(date): DroidDex was not running" >> $LOGDIR/$LOGFILE
+        return 1
+    fi
+}
+restart() {
+    echo "$(date): DroidDex restarting..." >> $LOGDIR/$LOGFILE
+    stop
+    sleep 2
+    start
+}
+
+status() {
+    if screen -list | grep -q "droiddex"; then
+        echo "DroidDex is running"
+        return 0
+    else
+        echo "DroidDex is not running"
+        return 1
+    fi
+}

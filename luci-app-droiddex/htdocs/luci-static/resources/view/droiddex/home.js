@@ -34,23 +34,23 @@ var callServiceAction = rpc.declare({
 });
 
 return view.extend({
-    title: _('WebDroidX Overview'),
+    title: _('DroidDex Overview'),
     description: _('Web-based Android screen mirroring using scrcpy'),
 
     load: function() {
-        return uci.load('webdroidx');
+        return uci.load('droiddex');
     },
 
     render: function() {
-        var m = new form.Map('webdroidx', _('WebDroidX'), 
+        var m = new form.Map('droiddex', _('DroidDex'), 
             _('Web-based Android screen mirroring using scrcpy'));
 
-        var controlSection = m.section(form.NamedSection, 'config', 'webdroidx', _('Service Control'));
+        var controlSection = m.section(form.NamedSection, 'config', 'droiddex', _('Service Control'));
         controlSection.addremove = false;
 
         var statusOption = controlSection.option(form.DummyValue, '_status', _('Service Status'));
         statusOption.cfgvalue = function() {
-            return fs.exec('/etc/init.d/webdroidx', ['status']).then(function(result) {
+            return fs.exec('/etc/init.d/droiddex', ['status']).then(function(result) {
                 if (result.code === 0) {
                     return E('span', { 'style': 'color: #28a745; font-weight: bold;' }, _('● RUNNING'));
                 } else {
@@ -65,7 +65,7 @@ return view.extend({
             var statusElements = document.querySelectorAll('[data-widget-id="_status"]');
             if (statusElements.length > 0) {
                 var statusElement = statusElements[0];
-                fs.exec('/etc/init.d/webdroidx', ['status']).then(function(result) {
+                fs.exec('/etc/init.d/droiddex', ['status']).then(function(result) {
                     if (result.code === 0) {
                         statusElement.innerHTML = '<span style="color: #28a745; font-weight: bold;">● RUNNING</span>';
                     } else {
@@ -85,19 +85,19 @@ return view.extend({
             btn.value = _('Starting...');
             
             Promise.all([
-                fs.exec('/etc/init.d/webdroidx', ['start']),
-                fs.exec('/etc/init.d/webdroidx', ['enable'])
+                fs.exec('/etc/init.d/droiddex', ['start']),
+                fs.exec('/etc/init.d/droiddex', ['enable'])
             ]).then(function(results) {
                 if (results[0].code === 0) {
-                    ui.addNotification(null, E('p', _('WebDroidX service started')), 'info');
+                    ui.addNotification(null, E('p', _('DroidDex service started')), 'info');
                     setTimeout(function() {
                         window.location.reload();
                     }, 1000);
                 } else {
-                    ui.addNotification(null, E('p', _('Failed to start WebDroidX service')), 'error');
+                    ui.addNotification(null, E('p', _('Failed to start DroidDex service')), 'error');
                 }
             }).catch(function(err) {
-                ui.addNotification(null, E('p', _('Failed to start WebDroidX service')), 'error');
+                ui.addNotification(null, E('p', _('Failed to start DroidDex service')), 'error');
             }).finally(function() {
                 btn.disabled = false;
                 btn.value = _('Start');
@@ -112,19 +112,19 @@ return view.extend({
             btn.value = _('Stopping...');
             
             Promise.all([
-                fs.exec('/etc/init.d/webdroidx', ['stop']),
-                fs.exec('/etc/init.d/webdroidx', ['disable'])
+                fs.exec('/etc/init.d/droiddex', ['stop']),
+                fs.exec('/etc/init.d/droiddex', ['disable'])
             ]).then(function(results) {
                 if (results[0].code === 0) {
-                    ui.addNotification(null, E('p', _('WebDroidX service stopped')), 'info');
+                    ui.addNotification(null, E('p', _('DroidDex service stopped')), 'info');
                     setTimeout(function() {
                         window.location.reload();
                     }, 1000);
                 } else {
-                    ui.addNotification(null, E('p', _('Failed to stop WebDroidX service')), 'error');
+                    ui.addNotification(null, E('p', _('Failed to stop DroidDex service')), 'error');
                 }
             }).catch(function(err) {
-                ui.addNotification(null, E('p', _('Failed to stop WebDroidX service')), 'error');
+                ui.addNotification(null, E('p', _('Failed to stop DroidDex service')), 'error');
             }).finally(function() {
                 btn.disabled = false;
                 btn.value = _('Stop');
@@ -138,46 +138,46 @@ return view.extend({
             btn.disabled = true;
             btn.value = _('Restarting...');
             
-            fs.exec('/etc/init.d/webdroidx', ['restart']).then(function(result) {
+            fs.exec('/etc/init.d/droiddex', ['restart']).then(function(result) {
                 if (result.code === 0) {
-                    ui.addNotification(null, E('p', _('WebDroidX service restarted')), 'info');
+                    ui.addNotification(null, E('p', _('DroidDex service restarted')), 'info');
                     setTimeout(function() {
                         window.location.reload();
                     }, 1000);
                 } else {
-                    ui.addNotification(null, E('p', _('Failed to restart WebDroidX service')), 'error');
+                    ui.addNotification(null, E('p', _('Failed to restart DroidDex service')), 'error');
                 }
             }).catch(function(err) {
-                ui.addNotification(null, E('p', _('Failed to restart WebDroidX service')), 'error');
+                ui.addNotification(null, E('p', _('Failed to restart DroidDex service')), 'error');
             }).finally(function() {
                 btn.disabled = false;
                 btn.value = _('Restart');
             });
         };
 
-        var openBtn = controlSection.option(form.Button, 'open', _('Open WebDroidX'));
-        openBtn.inputtitle = _('Open WebDroidX');
+        var openBtn = controlSection.option(form.Button, 'open', _('Open DroidDex'));
+        openBtn.inputtitle = _('Open DroidDex');
         openBtn.onclick = function(ev) {
             var btn = ev.target;
             btn.disabled = true;
             btn.value = _('Loading...');
             
-            var port = uci.get('webdroidx', 'config', 'server_port') || '8000';
+            var port = uci.get('droiddex', 'config', 'server_port') || '8000';
             var currentHost = window.location.hostname;
             var url = 'http://' + currentHost + ':' + port;
             
             window.open(url, '_blank');
             
             ui.addNotification(null, 
-                E('p', _('Opening WebDroidX at %s').format(url)), 
+                E('p', _('Opening DroidDex at %s').format(url)), 
                 'info'
             );
             
             btn.disabled = false;
-            btn.value = _('Open WebDroidX');
+            btn.value = _('Open DroidDex');
         };
 
-        fs.exec('/etc/init.d/webdroidx', ['status']).then(function(result) {
+        fs.exec('/etc/init.d/droiddex', ['status']).then(function(result) {
             if (result.code === 0) {
                 startBtn.readonly = true;
                 openBtn.readonly = false;
