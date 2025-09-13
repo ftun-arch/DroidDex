@@ -1,8 +1,7 @@
 # WebDroidX - Android Screen Mirroring for OpenWrt
 
-[![Telegram Group](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/+TuLCASzJrVJmNzM1)
-[![GitHub Downloads](https://img.shields.io/github/downloads/bobbyunknown/WebDroidX/total?style=for-the-badge)](https://github.com/bobbyunknown/WebDroidX)
-[![GitHub Release](https://img.shields.io/github/v/release/bobbyunknown/WebDroidX?style=for-the-badge)](https://github.com/bobbyunknown/WebDroidX/releases)
+[![GitHub Downloads](https://img.shields.io/github/downloads/ftun-arch/DroidDex/total?style=for-the-badge)](https://github.com/ftun-arch/DroidDex/releases)
+[![GitHub Release (Pre-release)](https://img.shields.io/github/v/release/ftun-arch/DroidDex?include_prereleases&style=for-the-badge)](https://github.com/ftun-arch/DroidDex/releases)
 
 > **Language / Bahasa:** **🇺🇸 English** | [🇮🇩 Bahasa Indonesia](README.md)
 
