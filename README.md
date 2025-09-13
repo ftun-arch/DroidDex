@@ -1,8 +1,7 @@
 # DroidDex - Android Screen Mirroring for OpenWrt
 
-[![Telegram Group](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/+TuLCASzJrVJmNzM1)
-[![GitHub Downloads](https://img.shields.io/github/downloads/bobbyunknown/DroidDex/total?style=for-the-badge)](https://github.com/bobbyunknown/DroidDex)
-[![GitHub Release](https://img.shields.io/github/v/release/bobbyunknown/DroidDex?style=for-the-badge)](https://github.com/bobbyunknown/DroidDex/releases)
+[![GitHub Downloads](https://img.shields.io/github/downloads/ftun-arch/DroidDex/total?style=for-the-badge)](https://github.com/ftun-arch/DroidDex/releases)
+[![GitHub Release (Pre-release)](https://img.shields.io/github/v/release/ftun-arch/DroidDex?include_prereleases&style=for-the-badge)](https://github.com/ftun-arch/DroidDex/releases)
 
 > **Language / Bahasa:** [🇺🇸 English](README-EN.md) | 🇮🇩 **Bahasa Indonesia**
 
