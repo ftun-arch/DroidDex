@@ -8,7 +8,7 @@ TEMP_DIR=$(mktemp -d)
 mkdir -p "$TARGET_DIR"
 
 echo "==> Downloading DroidDex for $ARCH architecture..."
-curl -sSL "https://github.com/ftun-arch/DroidDex/raw/main/core/droiddex-$ARCH.tar.gz" -o "$TEMP_DIR/droiddex.tar.gz"
+curl -sSL "https://github.com/ftun-arch/DroidDex/raw/dev/core/droiddex-$ARCH.tar.gz" -o "$TEMP_DIR/droiddex.tar.gz"
 
 echo "==> Extracting DroidDex..."
 tar -xzf "$TEMP_DIR/droiddex.tar.gz" -C "$TEMP_DIR"
