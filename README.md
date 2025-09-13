@@ -67,7 +67,7 @@ DroidDex/
 ### 1. Install Core
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/ftun-arch/DroidDex/refs/heads/main/install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ftun-arch/DroidDex/dev/install.sh)"
 ```
 
 ### 2. Install Package
